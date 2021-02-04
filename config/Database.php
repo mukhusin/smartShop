@@ -13,7 +13,7 @@ class DatabaseConnection{
         $this->server_name   = "localhost";
         $this->username_name = "u689581850_sms";
         $this->password = "Sms12345678";
-        $this->database_name = "u689581850_sms ";
+        $this->database_name = "u689581850_sms";
         $this->charset = "utf8mb4";
        
         //error handling 
