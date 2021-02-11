@@ -173,6 +173,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <th>Price</th>
                       <th>Discount</th>
                       <th>Total Price</th>
+                      <th>Profit</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -181,6 +182,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <?php 
                          foreach ($product->todaySalesData() as $value) {
                            $productData = $product->productData($value['product_id']);
+                           $stock = $product->stockData($value['product_id']);
+                           $profit = $value['total_price'] - ($stock['bprice'] * $value['qty']);
+                           if ($value['type'] == 'rsale') {
+                               $profit = $value['total_price'] - (($stock['bprice'] / $productData['qty']) * $value['qty']);
+                           }
                             echo '
                                 <tr>
                                     <td>'.$value['created_at'].'</td>
@@ -195,6 +201,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <td>'.$value['price'].'</td>
                                     <td>'.$value['discount'].'</td>
                                     <td>'.$value['total_price'].'</td>
+                                    <td>'.$profit.'</td>
                                 </tr>
                             ';
                          }
@@ -208,6 +215,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <th>Price</th>
                         <th>Discount</th>
                         <th>Total Price</th>
+                        <th>Profit</th>
                     </tr>
                   </tfoot>
                 </table>
@@ -290,6 +298,47 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="../dist/js/adminlte.js"></script>
 <script src="../js/jquery.form.js"></script>
 <!-- <script src="../js/klikod.js"></script> -->
+<script>
+      jQuery.fn.putCursorAtEnd = function() {
+
+      return this.each(function() {
+        
+        // Cache references
+        var $el = $(this),
+            el = this;
+
+        // Only focus if input isn't already
+        if (!$el.is(":focus")) {
+        $el.focus();
+        }
+
+        // If this function exists... (IE 9+)
+        if (el.setSelectionRange) {
+
+          // Double the length because Opera is inconsistent about whether a carriage return is one character or two.
+          var len = $el.val().length * 2;
+          
+          // Timeout seems to be required for Blink
+          setTimeout(function() {
+            el.setSelectionRange(len, len);
+          }, 1);
+        
+        } else {
+          
+          // As a fallback, replace the contents with itself
+          // Doesn't work in Chrome, but Chrome supports setSelectionRange
+          $el.val($el.val());
+          
+        }
+
+        // Scroll to the bottom, in case we're in a tall textarea
+        // (Necessary for Firefox and Chrome)
+        this.scrollTop = 999999;
+
+      });
+
+      };
+</script>
 <script type="text/javascript">
   $(document).ready(function () {
 
@@ -345,7 +394,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 		});
 
 
-    $("body").delegate(".input-discount", "keyup", function(){
+    $("body").delegate(".input-discount", "keyup", function(e){
+      e.preventDefault();
         var amount = $(this).val();
         var productId = $(this).attr('productId');
         var qty = $(this).attr('qty');
@@ -356,8 +406,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
           function(data, status, jqXHR) {// success callback
               // $('#cat-data').append('status: ' + status + ', data: ' + data);
             if (data == 1) {
-              fetchCartData(from);
-              $(this).focus();
+              fetchCartData(from,productId,"input-discount");
+              // $("#"+inp+id).focus().val($("#"+inp+id).val());
+             
             }
             if (data == 5) {
               toastr.error("Sorry discount is out of range !!");
@@ -379,8 +430,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           function(data, status, jqXHR) {// success callback
               // $('#cat-data').append('status: ' + status + ', data: ' + data);
               if (data == 1) {
-                fetchCartData(from);
-                $(this).focus();
+                fetchCartData(from,productId,"input-qty");
               }
               if (data == 5) {
                 toastr.error("Sorry quantity is out of range !!");
@@ -457,16 +507,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
       $(this).off('wheel.disableScroll')
     })
 
-    function fetchCartData(from){
+    function fetchCartData(from,id,inp){
       var from = from;
       $.post('../route/web.php',   // url
           { fetchCartData: 1,from: from }, // data to be submit
           function(data, status, jqXHR) {// success callback
               // $('#cat-data').append('status: ' + status + ', data: ' + data);
               $('.cat-data').html(data);
+              var fieldInput = $("#"+inp+id);
+              var fldLength= fieldInput.val().length;
+              fieldInput.focus();
+              fieldInput[0].setSelectionRange(fldLength, fldLength);
           });
     }
 
   </script>
 </body>
 </html>
+
+
+
+<!-- // alert($("#"+inp+id).val())
+              // $("#"+inp+id).focus();
+              $("#"+inp+id).focus().val($("#"+inp+id).val());
+              // var searchInput = $("#"+inp+id);
+
+              // searchInput
+              //   .putCursorAtEnd() // should be chainable
+              //   .on("focus", function() { // could be on any event
+              //     searchInput.putCursorAtEnd()
+              // }); -->

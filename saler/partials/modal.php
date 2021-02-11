@@ -14,24 +14,17 @@
       <div class="modal-body">
         <form id="registerproduct-form" method="POST" action="../route/web.php">
             <input hidden name="registerProduct" value="1" type="text">
+            <input hidden name="code" value="<?php rand(100,10000) ?>" type="text">
             <div class="form-group">
                 <label for="name">Product Name:</label>
                 <input type="text" name="name" class="form-control" placeholder="Enter product name" id="name" required>
             </div>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                    <label for="code">Product Code:</label>
-                    <input type="text" name="code" class="form-control" placeholder="Enter product code" id="code" required>
-                </div>
+           
+              <div class="form-group">
+                    <label for="code">Product unit:</label>
+                    <input type="text" name="unit" class="form-control" placeholder="Enter product unit" id="code" required>
               </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                      <label for="code">Product unit:</label>
-                      <input type="text" name="unit" class="form-control" placeholder="Enter product unit" id="code" required>
-                </div>
-              </div>
-            </div>
+              
             <div class="row">
               <div class="col-md-7">
                 <div class="form-group">
@@ -85,24 +78,17 @@
               <form id="update-product-form<?php echo $item['id'] ?>" method="POST" action="../route/web.php">
                   <input hidden name="updateProduct" value="1" type="text">
                   <input hidden name="productId" value="<?php echo $item['id'] ?>" type="text">
+                  <input hidden name="code" value="<?php echo $item['id'] ?>" type="text">
                   <div class="form-group">
                       <label for="name">Product Name:</label>
                       <input type="text" name="name" value="<?php echo $item['name'] ?>" class="form-control" placeholder="Enter product name" id="name" required>
                   </div>
-                 <div class="row">
-                   <div class="col-md-6">
-                      <div class="form-group">
-                          <label for="code">Product Code:</label>
-                          <input type="text" name="code" value="<?php echo $item['code'] ?>" class="form-control" placeholder="Enter product code" id="code" required>
-                      </div>
-                   </div>
-                   <div class="col-md-6">
+                
                     <div class="form-group">
                         <label for="code">Unit:</label>
                         <input type="text" name="unit" value="<?php echo $item['unit'] ?>" class="form-control" placeholder="Enter product unit" id="code" required>
                     </div>
-                   </div>
-                 </div>
+                  
                   <div class="row">
                     <div class="col-md-7">
                       <div class="form-group">
@@ -173,6 +159,7 @@
               <form id="add-stock-form<?php echo $item['id'] ?>" method="POST" action="../route/web.php">
                   <input hidden name="addStock" value="1" type="text">
                   <input hidden name="productId" value="<?php echo $item['id'] ?>" type="text">
+                  <input hidden name="code" value="<?php echo $item['id'] ?>" type="text">
                   <div class="form-group">
                     <div class="row">
                       <div class="col-md-5">
@@ -184,17 +171,7 @@
                     </div>
                       
                   </div>
-                  <div class="form-group">
-                    <div class="row">
-                      <div class="col-md-5">
-                         <label for="code">Product Code:</label>
-                      </div>
-                      <div class="col-md-7">
-                           <input disabled type="text" name="code" value="<?php echo $item['code'] ?>" class="form-control" placeholder="Enter product code" id="code" required>
-                      </div>
-                    </div>
-                      
-                  </div>
+                  
                   <div class="form-group">
                      <div class="row">
                         <div class="col-md-5">
@@ -293,6 +270,7 @@
                   <input hidden name="updatePurchases" value="1" type="text">
                   <input hidden name="productId" value="<?php echo $item['product_id'] ?>" type="text">
                   <input hidden name="id" value="<?php echo $item['id'] ?>" type="text">
+                  <input hidden name="code" value="<?php echo $item['id'] ?>" type="text">
                   <div class="form-group">
                     <div class="row">
                       <div class="col-md-5">
@@ -304,17 +282,7 @@
                     </div>
                       
                   </div>
-                  <div class="form-group">
-                    <div class="row">
-                      <div class="col-md-5">
-                         <label for="code">Product Code:</label>
-                      </div>
-                      <div class="col-md-7">
-                           <input disabled type="text" name="code" value="<?php echo $productData['code'] ?>" class="form-control" placeholder="Enter product code" id="code" required>
-                      </div>
-                    </div>
-                      
-                  </div>
+                  
                   <div class="form-group">
                      <div class="row">
                         <div class="col-md-5">
@@ -395,6 +363,7 @@
               <form id="update-stock-form<?php echo $item['id'] ?>" method="POST" action="../route/web.php">
                   <input hidden name="updateStock" value="1" type="text">
                   <input hidden name="id" value="<?php echo $item['id'] ?>" type="text">
+                  <input hidden name="code" value="<?php echo $item['id'] ?>" type="text">
                   <div class="form-group">
                     <div class="row">
                       <div class="col-md-5">
@@ -406,17 +375,7 @@
                     </div>
                       
                   </div>
-                  <div class="form-group">
-                    <div class="row">
-                      <div class="col-md-5">
-                         <label for="code">Product Code:</label>
-                      </div>
-                      <div class="col-md-7">
-                           <input disabled type="text" name="code" value="<?php echo $productData['code'] ?>" class="form-control" placeholder="Enter product code" id="code" required>
-                      </div>
-                    </div>
-                      
-                  </div>
+                  
                   <div class="form-group">
                      <div class="row">
                         <div class="col-md-5">

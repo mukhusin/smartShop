@@ -248,11 +248,12 @@ class Product extends DatabaseConnection
 
         if ($cartData->rowCount() > 0) {
             
-            $Total = $this->connect()->prepare("SELECT SUM(total_price) AS total FROM cat ");
+            $Total = $this->connect()->prepare("SELECT SUM(total_price) AS total FROM cat WHERE type = '$from' ");
             $Total->execute();
             $cartTotalCost = $Total->fetch();
                 echo '
                    <input hidden type="hidden" name="saleProduct" value="1">
+                   <input hidden type="hidden" name="from" value="'.$from.'">
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
@@ -273,8 +274,8 @@ class Product extends DatabaseConnection
                                     <tr>
                                         <td>'.$productData['name'].'</td>
                                         <td>'.$value['selling_price'].'</td>
-                                        <td><input type="number" min="0" qty="'.$value['qty'].'" from = "'.$value['type'].'" productId = "'.$value['product_id'].'"  value="'.$value['discount'].'" name="discount" class="form-control input-discount" style="width: 100px !important;height: 35px !important;"></td>
-                                        <td><input type="number" min="1" discount="'.$value['discount'].'" from = "'.$value['type'].'" productId = "'.$value['product_id'].'" value="'.$value['qty'].'" name="qty" class="form-control input-qty" style="width: 100px !important;height: 35px !important;"></td>
+                                        <td><input id="input-discount'.$value['product_id'].'" type="number" min="0" qty="'.$value['qty'].'" from = "'.$value['type'].'" productId = "'.$value['product_id'].'"  value="'.$value['discount'].'" name="discount" class="form-control input-discount" style="width: 100px !important;height: 35px !important;" autofocus ></td>
+                                        <td><input id="input-qty'.$value['product_id'].'" type="number" min="1" discount="'.$value['discount'].'" from = "'.$value['type'].'" productId = "'.$value['product_id'].'" value="'.$value['qty'].'" name="qty" class="form-control input-qty" style="width: 100px !important;height: 35px !important;" autofocus></td>
                                         <td><b>'.$value['total_price'].'</b></td>
                                         <td><button title="Remove" from = "'.$value['type'].'" dataId = '.$value['id'].' class="btn btn-danger btn-sm deleteFromCart">X</button></td>
                                     </tr>
@@ -286,7 +287,7 @@ class Product extends DatabaseConnection
                 </table>
                 <div class="row">
                     <div class="col-md-6"><h6 class="ml-5">Total: <b>'.$cartTotalCost['total'].' Tshs</b></h3></div>
-                    <div class="col-md-6"><button class="btn btn-primary float-right w-75 sale-btn">Sale</button></div>
+                    <div class="col-md-6"><button  class="btn btn-primary float-right w-75 sale-btn">Sale</button></div>
                 </div>
             ';
         } else {
@@ -429,7 +430,8 @@ class Product extends DatabaseConnection
         // sales table field => user_id product_id 	qty bulk price discount recept type
         // cat table field => roduct_id	qty	selling_price discount total_price created_at type recept_num 	
         session_start();
-        $check = $this->connect()->prepare("SELECT * FROM cat ");
+        $from = $_POST['from'];
+        $check = $this->connect()->prepare("SELECT * FROM cat WHERE type = '$from'");
         $check->execute();
         if ($check->rowCount() > 0) {
             foreach ($check->fetchAll() as $value) {
@@ -456,7 +458,8 @@ class Product extends DatabaseConnection
                 $stmt->execute([$newStockQty, $value['product_id'] ]);
             }
 
-                $stmt = $this->connect()->prepare("TRUNCATE TABLE `cat`");
+                // $stmt = $this->connect()->prepare("TRUNCATE TABLE `cat`");
+                $stmt = $this->connect()->prepare("DELETE FROM cat WHERE type = '$from'");
                 $stmt->execute();
 
             echo 1;
@@ -516,10 +519,17 @@ class Product extends DatabaseConnection
 
     public function totalTodayPurchases(){
         $todayDate = date('Y-m-d');
-        $data = $this->connect()->prepare("SELECT SUM(bprice) AS totalPurchases FROM purchases WHERE dateSaved = '$todayDate'");
+        $data = $this->connect()->prepare("SELECT SUM(bprice * qty) AS totalPurchases FROM purchases WHERE dateSaved = '$todayDate'");
         $data->execute();
         $total = $data->fetch();
         return $total['totalPurchases'];
+    }
+    public function fetchTodayPurchases(){
+        
+            $todayDate = date('y-m-d', time());
+            $data = $this->connect()->prepare("SELECT * FROM purchases WHERE dateSaved = '$todayDate'");
+            $data->execute();
+        return $data->fetchAll();
     }
 
     public function wSaleOutStock(){

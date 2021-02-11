@@ -347,7 +347,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 		});
 
 
-    $("body").delegate(".input-discount", "keyup", function(){
+    $("body").delegate(".input-discount", "keyup", function(e){
+      e.preventDefault();
         var amount = $(this).val();
         var productId = $(this).attr('productId');
         var qty = $(this).attr('qty');
@@ -358,8 +359,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
           function(data, status, jqXHR) {// success callback
               // $('#cat-data').append('status: ' + status + ', data: ' + data);
             if (data == 1) {
-              fetchCartData(from);
-              $(this).focus();
+              fetchCartData(from,productId,"input-discount");
+              // $("#"+inp+id).focus().val($("#"+inp+id).val());
+             
             }
             if (data == 5) {
               toastr.error("Sorry discount is out of range !!");
@@ -381,8 +383,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           function(data, status, jqXHR) {// success callback
               // $('#cat-data').append('status: ' + status + ', data: ' + data);
               if (data == 1) {
-                fetchCartData(from);
-                $(this).focus();
+                fetchCartData(from,productId,"input-qty");
               }
               if (data == 5) {
                 toastr.error("Sorry quantity is out of range !!");
@@ -459,13 +460,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
       $(this).off('wheel.disableScroll')
     })
 
-    function fetchCartData(from){
+    function fetchCartData(from,id,inp){
       var from = from;
       $.post('../route/web.php',   // url
           { fetchCartData: 1,from: from }, // data to be submit
           function(data, status, jqXHR) {// success callback
               // $('#cat-data').append('status: ' + status + ', data: ' + data);
               $('.cat-data').html(data);
+              var fieldInput = $("#"+inp+id);
+              var fldLength= fieldInput.val().length;
+              fieldInput.focus();
+              fieldInput[0].setSelectionRange(fldLength, fldLength);
           });
     }
 
