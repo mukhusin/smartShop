@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 10, 2021 at 10:13 AM
+-- Generation Time: Feb 13, 2021 at 10:05 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.13
 
@@ -56,6 +56,14 @@ CREATE TABLE `products` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `name`, `code`, `bulk`, `qty`, `unit`, `created_at`, `updated_at`) VALUES
+(1, 'product 1', '001', 'Carton', 24, '300mls', '2021-02-06 14:51:07', '2021-02-06 14:51:07'),
+(2, 'product2', '9641', 'Crete', 24, '300mls', '2021-02-13 08:31:52', '2021-02-13 08:31:52');
+
 -- --------------------------------------------------------
 
 --
@@ -73,6 +81,14 @@ CREATE TABLE `purchases` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `purchases`
+--
+
+INSERT INTO `purchases` (`id`, `product_id`, `qty`, `bprice`, `rsaleprice`, `wsaleprice`, `dateSaved`, `created_at`, `updated_at`) VALUES
+(1, 1, 20, 56000, 3000, 60000, '2021-02-11', '2021-02-06 14:51:44', '2021-02-11 09:13:46'),
+(2, 2, 10, 6000, 500, 8000, '2021-02-13', '2021-02-13 08:33:31', '2021-02-13 08:33:31');
 
 -- --------------------------------------------------------
 
@@ -95,6 +111,15 @@ CREATE TABLE `sales` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `sales`
+--
+
+INSERT INTO `sales` (`id`, `user_id`, `product_id`, `qty`, `bulk`, `price`, `total_price`, `discount`, `recept`, `type`, `dateSaved`, `created_at`) VALUES
+(2, 3, 1, 3, 24, 60000, 180000, 0, '3081', 'wsale', '2021-02-11', '2021-02-11 09:09:27'),
+(3, 3, 2, 5, 24, 8000, 40000, 0, '3070', 'wsale', '2021-02-13', '2021-02-13 08:34:10'),
+(4, 3, 2, 2, 24, 8000, 16000, 0, '4731', 'wsale', '2021-02-13', '2021-02-13 08:38:53');
+
 -- --------------------------------------------------------
 
 --
@@ -113,6 +138,14 @@ CREATE TABLE `stock` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `stock`
+--
+
+INSERT INTO `stock` (`id`, `product_id`, `quantity`, `bprice`, `rsale_price`, `wsale_price`, `rdiscount`, `wdiscount`, `created_at`, `updated_at`) VALUES
+(1, 1, 407, 56000, 3000, 60000, 500, 1000, '2021-02-06 14:51:45', '2021-02-11 12:25:29'),
+(2, 2, 72, 6000, 500, 8000, 0, 0, '2021-02-13 08:33:31', '2021-02-13 08:38:53');
 
 -- --------------------------------------------------------
 
@@ -188,31 +221,31 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `cat`
 --
 ALTER TABLE `cat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `purchases`
 --
 ALTER TABLE `purchases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
