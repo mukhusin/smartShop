@@ -115,7 +115,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <thead>
                             <tr>
                                 <th>product name</th>
-                                <th>product code</th>
+                              
                                 <th>Bulk type</th>
                                 <th>Items</th>
                                 <th>Unit@each</th>
@@ -129,7 +129,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                      echo '
                                          <tr>
                                               <td>'.$item['name'].'</td>
-                                              <td>'.$item['code'].'</td>
+                                          
                                               <td>'.$item['bulk'].'</td>
                                               <td>'.$item['qty'].'</td>
                                               <td>'.$item['unit'].'</td>
@@ -242,7 +242,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <td>'.number_format($item['rsale_price']).'</td>
                                                 <td>'.number_format($item['wsale_price']).'</td>
                                                 <td><small>Retail</small>: <b>'.number_format($item['rdiscount']).'</b><small> Wholesale</small>: <b>'.number_format($item['wdiscount']).'</b></td>
-                                                <td><button disabled title="Manager Session" class="btn btn-sm btn-success"  >Edit</button></td>
+                                                <td><button class="btn btn-sm btn-success" data-toggle="modal" data-target="#stock-update'.$item['id'].'" >Edit</button></td>
                                           </tr>
                                       ';
                                   }

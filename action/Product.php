@@ -482,6 +482,44 @@ class Product extends DatabaseConnection
         return $data->fetchAll();
     }
 
+    public function fetchSalesWholesaleSummaryInterval($from,$to){
+        $data = $this->connect()->prepare("SELECT sales.dateSaved, SUM(sales.total_price) AS salesTotal, SUM(stock.bprice * sales.qty) AS kutoa , 
+                                                SUM(sales.qty) AS quantity FROM `sales`,products,stock
+                                                WHERE sales.type = 'wsale' AND sales.product_id = products.id 
+                                                AND stock.product_id = products.id AND dateSaved BETWEEN '$from' AND '$to' GROUP BY sales.dateSaved");
+        $data->execute();
+        return $data->fetchAll();
+    }
+
+    public function fetchSalesRetailsaleSummaryInterval($from,$to){
+        $data = $this->connect()->prepare("SELECT sales.dateSaved, SUM(sales.total_price) AS salesTotal, 
+                 SUM((stock.bprice / products.qty)*sales.qty) AS kutoa , 
+                 SUM(sales.qty) AS quantity FROM `sales`,products,stock  WHERE sales.type = 'rsale' 
+                AND sales.product_id = products.id AND stock.product_id = products.id 
+                AND dateSaved BETWEEN '$from' AND '$to' GROUP BY sales.dateSaved");
+        $data->execute();
+        return $data->fetchAll();
+    }
+
+
+    public function fetchSalesProfitInterval($from,$to){
+        $data = $this->connect()->prepare("SELECT * FROM sales WHERE dateSaved BETWEEN '$from' AND '$to'");
+        $data->execute();
+         $profit = 0;
+         foreach ($data->fetchAll() as  $datas) {
+                $productData = $this->productData($datas['product_id']);
+                $stock = $this->stockData($datas['product_id']);
+                $profit = $datas['total_price'] - ($stock['bprice'] * $datas['qty']);
+                if ($datas['type'] == 'rsale') {
+                    $profit = $datas['total_price'] - (($stock['bprice'] / $productData['qty']) * $datas['qty']);
+                }
+
+                $profit += $profit;
+         }
+
+         return $profit;
+    }
+
     public function sumSalesInterval($from,$to){
         $data = $this->connect()->prepare("SELECT SUM(total_price) AS totalSale FROM sales WHERE dateSaved BETWEEN '$from' AND '$to'");
         $data->execute();

@@ -33,9 +33,9 @@
                     <li><a href="#" class="dropdown-item" data-toggle="modal" data-target="#sales-doc-modal" >Sales Report </a></li>
                     <li><a href="../pdfDoc/productDoc.php" class="dropdown-item">Product Report </a></li>
                     <li><a href="#" class="dropdown-item"  data-toggle="modal" data-target="#purchases-doc-modal">Purchases Report</a></li>
-                    <li><a href="../pdfDoc/stockDoc.php" class="dropdown-item">Stock Report</a></li>
+                    <li><a href="../pdfDoc/stockDoc.php" target="_blank" class="dropdown-item">Stock Report</a></li>
                 </ul>
-        
+               
            </li>
         </ul>
 

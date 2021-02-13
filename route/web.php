@@ -90,10 +90,23 @@
           $to = $_POST['to'];
           header('location: ../pdfDoc/salesDoc.php?from='.$from.'&to='.$to);
     }
+
     if(isset($_POST['purchasesDoc'])){
           $from = $_POST['from'];
           $to = $_POST['to'];
           header('location: ../pdfDoc/purchasesDoc.php?from='.$from.'&to='.$to);
+    }
+
+    if(isset($_POST['rsalesSummaryDoc'])){
+          $from = $_POST['from'];
+          $to = $_POST['to'];
+          header('location: ../pdfDoc/rsales-summary-report.php?from='.$from.'&to='.$to);
+    }
+
+    if(isset($_POST['wsalesSummaryDoc'])){
+          $from = $_POST['from'];
+          $to = $_POST['to'];
+          header('location: ../pdfDoc/wsales-summary-report.php?from='.$from.'&to='.$to);
     }
 
 

@@ -14,7 +14,7 @@
       <div class="modal-body">
         <form id="registerproduct-form" method="POST" action="../route/web.php">
             <input hidden name="registerProduct" value="1" type="text">
-            <input hidden name="code" value="<?php rand(100,10000) ?>" type="text">
+            <input hidden name="code" value="<?php echo rand(100,10000) ?>" type="text">
             <div class="form-group">
                 <label for="name">Product Name:</label>
                 <input type="text" name="name" class="form-control" placeholder="Enter product name" id="name" required>
@@ -78,7 +78,7 @@
               <form id="update-product-form<?php echo $item['id'] ?>" method="POST" action="../route/web.php">
                   <input hidden name="updateProduct" value="1" type="text">
                   <input hidden name="productId" value="<?php echo $item['id'] ?>" type="text">
-                  <input hidden name="code" value="<?php echo $item['id'] ?>" type="text">
+                  <input hidden name="code" value="<?php echo $item['code'] ?>" type="text">
                   <div class="form-group">
                       <label for="name">Product Name:</label>
                       <input type="text" name="name" value="<?php echo $item['name'] ?>" class="form-control" placeholder="Enter product name" id="name" required>
@@ -159,7 +159,7 @@
               <form id="add-stock-form<?php echo $item['id'] ?>" method="POST" action="../route/web.php">
                   <input hidden name="addStock" value="1" type="text">
                   <input hidden name="productId" value="<?php echo $item['id'] ?>" type="text">
-                  <input hidden name="code" value="<?php echo $item['id'] ?>" type="text">
+                  <input hidden name="code" value="<?php echo $item['code'] ?>" type="text">
                   <div class="form-group">
                     <div class="row">
                       <div class="col-md-5">
@@ -270,7 +270,7 @@
                   <input hidden name="updatePurchases" value="1" type="text">
                   <input hidden name="productId" value="<?php echo $item['product_id'] ?>" type="text">
                   <input hidden name="id" value="<?php echo $item['id'] ?>" type="text">
-                  <input hidden name="code" value="<?php echo $item['id'] ?>" type="text">
+                  <input hidden name="code" value="<?php echo $productData['code'] ?>" type="text">
                   <div class="form-group">
                     <div class="row">
                       <div class="col-md-5">
@@ -363,7 +363,7 @@
               <form id="update-stock-form<?php echo $item['id'] ?>" method="POST" action="../route/web.php">
                   <input hidden name="updateStock" value="1" type="text">
                   <input hidden name="id" value="<?php echo $item['id'] ?>" type="text">
-                  <input hidden name="code" value="<?php echo $item['id'] ?>" type="text">
+                  <input hidden name="code" value="<?php echo $productData['code'] ?>" type="text">
                   <div class="form-group">
                     <div class="row">
                       <div class="col-md-5">
@@ -503,8 +503,80 @@
 
       <!-- Modal body -->
       <div class="modal-body">
-        <form id="registeruser-formLATER" method="POST" action="../route/web.php">
+        <form  method="POST" action="../route/web.php">
            <input type="hidden" hidden value="1" name="salesDoc">
+            <div class="form-group">
+                <label for="name">From Date:</label>
+                <input type="date"  name="from" class="form-control"  id="from" required>
+            </div>
+            <div class="form-group">
+                <label for="code">To Date:</label>
+                <input type="date" name="to" class="form-control"  id="to" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Genarate Report <i class="fa fa-fa-file-pdf"></i></button>
+        </form> 
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="rsales-summary-doc-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div id="userwaiting"></div>
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Genarate RetailSales Summary Report per Date</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form  method="POST" action="../route/web.php">
+           <input type="hidden" hidden value="1" name="rsalesSummaryDoc">
+            <div class="form-group">
+                <label for="name">From Date:</label>
+                <input type="date"  name="from" class="form-control"  id="from" required>
+            </div>
+            <div class="form-group">
+                <label for="code">To Date:</label>
+                <input type="date" name="to" class="form-control"  id="to" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Genarate Report <i class="fa fa-fa-file-pdf"></i></button>
+        </form> 
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="wsales-summary-doc-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div id="userwaiting"></div>
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Genarate WholeSales Summary Report per Date</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form  method="POST" action="../route/web.php">
+           <input type="hidden" hidden value="1" name="wsalesSummaryDoc">
             <div class="form-group">
                 <label for="name">From Date:</label>
                 <input type="date"  name="from" class="form-control"  id="from" required>

@@ -27,7 +27,7 @@ class pdfDocument extends FPDF
 		$this->Cell(266,5,"PERFECT LIQUOR",0,0,'C');
 		$this->Ln();
 		$this->SetFont('Times','',12);
-		$this->Cell(276,10,$from.' - '.$to." Total Sales ".number_format($product->sumSalesInterval($from,$to)).' /=Tshs With Profit of '.number_format($product->fetchSalesProfitInterval($from,$to)).' /=Tsh',0,0,'C');
+		$this->Cell(276,10,$from.' - '.$to."  WholeSales Sales and Profit Summary Report By Date",0,0,'C');
 		
 		$this->Ln(20);
 
@@ -45,44 +45,28 @@ class pdfDocument extends FPDF
    
 	function headerTable(){
 		$this->SetFont('Times','B',12);
-		$this->Cell(75,10,'Product',1,0,'C');
-		$this->Cell(35,10,'price',1,0,'C');
-		$this->Cell(25,10,'Sale Type',1,0,'C');
-		$this->Cell(30,10,'Quantity',1,0,'C');
-		$this->Cell(30,10,'Discount',1,0,'C');
-		$this->Cell(40,10,'Total',1,0,'C');
-		$this->Cell(40,10,'Profit',1,0,'C');
+		$this->Cell(85,10,'Date',1,0,'C');
+        $this->Cell(40,10,'Quantity',1,0,'C');
+		$this->Cell(75,10,'Total Sales (Tshs)',1,0,'C');
+		$this->Cell(75,10,'Total Profit (Tshs)',1,0,'C');
 		$this->Ln();
 	}
 
 	function SlipDetails()
 	{
         date_default_timezone_set("Africa/Dar_es_Salaam");
-        $today = date("Y-m-d");
         $product = new Product();
         $from = $_GET['from'];
         $to = $_GET['to'];
         // id	user_id	product_id	qty	bulk	price	total_price	discount	recept	type	dateSaved	created_at
-        foreach ($product->fetchSalesInterval($from,$to) as  $data) {
-			$productData = $product->productData($data['product_id']);
-
-			$stock = $product->stockData($data['product_id']);
-			$profit = $data['total_price'] - ($stock['bprice'] * $data['qty']);
-			if ($data['type'] == 'rsale') {
-				$profit = $data['total_price'] - (($stock['bprice'] / $productData['qty']) * $data['qty']);
-			}
-
-			$type = ($data['type'] == 'wsale') ? 'WholeSale' : 'Retail Sale' ;
-			$bulk = ($data['type'] == 'wsale') ? $productData['bulk'] : 'items' ;
+        foreach ($product->fetchSalesWholesaleSummaryInterval($from,$to) as  $data) {
+			// dateSaved	salesTotal	kutoa	quantity 	
+            $profit = $data['salesTotal'] - $data['kutoa'];
             $this->SetFont('Times','',12);
-            $this->Cell(75,10,$productData['name'],1,0,'L');
-            $this->Cell(35,10,number_format($data['price']),1,0,'L');
-            $this->Cell(25,10,$type,1,0,'L');
-            $this->Cell(30,10,$data['qty'].' '.$bulk,1,0,'L');
-            $this->Cell(30,10,number_format($data['discount']),1,0,'L');
-            $this->Cell(40,10,number_format($data['total_price']),1,0,'L');
-            $this->Cell(40,10,number_format($profit),1,0,'L');
-            
+            $this->Cell(85,10,$data['dateSaved'],1,0,'L');
+            $this->Cell(40,10,number_format($data['quantity']),1,0,'L');
+            $this->Cell(75,10,number_format($data['salesTotal']),1,0,'L');
+            $this->Cell(75,10,number_format($profit),1,0,'L');
             $this->Ln();
         }
        
@@ -103,4 +87,4 @@ $pdf->SlipDetails();
 // S: return the document as a string.
 
 
-$pdf->Output(date('Y-m-y',time()).'sales-report.pdf','I');
+$pdf->Output(date('Y-m-y',time()).'wholesales-summary-report.pdf','I');
