@@ -1,3 +1,4 @@
+
 <?php 
     include '../string.php';
     include '../config/session.php';
@@ -34,11 +35,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Daterange picker -->
   <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker.css">
+     <!-- DataTables -->
+  <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <!-- summernote -->
   <link rel="stylesheet" href="../plugins/summernote/summernote-bs4.css">
-   <!-- DataTables -->
-   <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <!-- Toastr -->
@@ -47,37 +48,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-   <!-- custom css -->
-   <link rel="stylesheet" href="../css/mukhusin.css">
 </head>
 <body class="hold-transition layout-top-nav">
 <div class="wrapper">
 
- <!-- Navbar -->
- <?php include 'partials/nav.php' ?>
+  <!-- Navbar -->
+  <?php include 'partials/nav.php' ?>
   <!-- /.navbar -->
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h4 class="m-0 text-dark">Manager</h4>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
+      <?php include 'partials/header.php' ?>
     <!-- /.content-header -->
 
      <!-- Main content -->
      <section class="content">
       <div class="container-fluid">
-        
+      
         <!-- Main row -->
         <div class="row">
           <!-- Left col -->
@@ -86,172 +74,146 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">
-                  <i class="fas fa-stock mr-1"></i>
-                  Stock Management
+                  <i class="fas fa-chart-pie mr-1"></i>
+                  <?php 
+                       switch ($_GET['type']) {
+                           case 'today_purchases':
+                                 echo "Today Purchases";
+                               break;
+                           
+                           case 'whole_out':
+                                   echo "WholeSale out of Stock";
+                               break;
+                           
+                           case 'retail_out':
+                                 echo "RetaileSale out of Stock";
+                               break;
+                           
+                           default:
+                                   echo "Details";
+                               break;
+                       }
+                  ?>
                 </h3>
-                <div class="card-tools">
-                  <ul class="nav nav-pills ml-auto">
-                    <li class="nav-item">
-                      <a class="nav-link active" href="#product-data" data-toggle="tab">products</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#add-stock" data-toggle="tab">Add stock</a>
-                    </li>
-                   
-                    <li class="nav-item">
-                      <a class="nav-link" href="#purchase-stock" data-toggle="tab">purchases</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#stock" data-toggle="tab">Stock</a>
-                    </li>
-                  </ul>
-                </div>
               </div><!-- /.card-header -->
               <div class="card-body">
-                <div class="tab-content p-0">
-                  <div class="tab-pane active" id="product-data" >
-                    <button data-toggle="modal" data-target="#register-product"  class="btn btn-sm btn-primary float-left">Add product</button>
-                    <table id="product-data-table" class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>product name</th>
-                              
-                                <th>Bulk type</th>
-                                <th>Items</th>
-                                <th>Unit@each</th>
-                                <th>action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php 
-                               
-                                foreach($product->fetchProducts() as $item){
-                                     echo '
-                                         <tr>
-                                              <td>'.$item['name'].'</td>
-                                          
-                                              <td>'.$item['bulk'].'</td>
-                                              <td>'.$item['qty'].'</td>
-                                              <td>'.$item['unit'].'</td>
-                                              <td>
-                                                   <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#edit-product'.$item['id'].'">Edit</button>
-                                                   <button data-toggle="modal" data-target="#delete-product-modal'.$item['id'].'" class="btn btn-sm btn-danger">Delete</button>
-                                              </td>
-                                         </tr>
-                                     ';
-                                }
-                            ?>
-                        </tbody>
-                    </table>
-                  </div>
-                  <div class="tab-pane" id="add-stock" >
-                    <!-- <button data-toggle="modal" data-target="#register-product"  class="btn btn-sm btn-primary float-left">Add product</button> -->
-                    <table id="add-stock-data-table" class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>product name</th>
-                                <th>product code</th>
-                                <th>Bulk type</th>
-                                <th>Items</th>
-                                <th>Unit@each</th>
-                                <th>action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php 
-                               
-                                foreach($product->fetchProducts() as $item){
-                                     echo '
-                                         <tr>
-                                              <td>'.$item['name'].'</td>
-                                              <td>'.$item['code'].'</td>
-                                              <td>'.$item['bulk'].'</td>
-                                              <td>'.$item['qty'].'</td>
-                                              <td>'.$item['unit'].'</td>
-                                              <td>
-                                                   <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#add-stock'.$item['id'].'">Add</button>
-                                              </td>
-                                         </tr>
-                                     ';
-                                }
-                            ?>
-                        </tbody>
-                    </table>
-                  </div>
-                
-                  <div class="tab-pane" id="purchase-stock">
-                    <table id="purchase-data-table" class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>product name</th>
-                                    <th>bulk</th>
-                                    <th>quantity</th>
-                                    <th>buying price</th>
-                                    <th>Retail price</th>
-                                    <th>Wholesale price</th>
-                                    <th>action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php 
-                                  
-                                    foreach($product->fetchPurchases() as $item){
-                                        $productData = $product->productData($item['product_id']);
-                                        echo '
+               
+                       <?php 
+                             if ($_GET['type'] == "today_purchases") {?>
+                                 <table id="purchase-data-table" class="table table-bordered table-hover">
+                                        <thead>
                                             <tr>
-                                                  <td>'.$item['created_at'].'</td>
-                                                  <td>'.$productData['name'].'</td>
-                                                  <td>'.$productData['bulk'].'</td>
-                                                  <td>'.$item['qty'].'</td>
-                                                  <td>'.number_format($item['bprice']).'</td>
-                                                  <td>'.number_format($item['rsaleprice']).'</td>
-                                                  <td>'.number_format($item['wsaleprice']).'</td>
-                                                  <td><button class="btn btn-sm btn-success" data-toggle="modal" data-target="#purchase'.$item['id'].'" >Edit</button></td>
+                                                <th>Date</th>
+                                                <th>product name</th>
+                                                <th>bulk</th>
+                                                <th>quantity</th>
+                                                <th>buying price</th>
+                                                <th>Retail price</th>
+                                                <th>Wholesale price</th>
+                                                <th>action</th>
                                             </tr>
-                                        ';
-                                    }
-                                ?>
-                            </tbody>
-                     </table>
-                  </div>
-
-                  <div class="tab-pane" id="stock">
-                    <table id="stock-data-table" class="table table-bordered table-hover">
-                          <thead>
-                              <tr>
-                                  <th>product name</th>
-                                  <th>quantity</th>
-                                  <th>buying price</th>
-                                  <th>Retail price</th>
-                                  <th>Wholesale price</th>
-                                  <th>Discount price</th>
-                                  <th>action</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <?php 
-                                
-                                  foreach($product->fetchStock() as $item){
-                                      $productData = $product->productData($item['product_id']);
-                                      echo '
-                                          <tr>
-                                                <td>'.$productData['name'].'</td>
-                                                <td>'.$product->bulkWithItermsStock($item['quantity'],$productData['qty'],$item['product_id']).'</td>
-                                                <td>'.number_format($item['bprice']).'</td>
-                                                <td>'.number_format($item['rsale_price']).'</td>
-                                                <td>'.number_format($item['wsale_price']).'</td>
-                                                <td><small>Retail</small>: <b>'.number_format($item['rdiscount']).'</b><small> Wholesale</small>: <b>'.number_format($item['wdiscount']).'</b></td>
-                                                <td><button class="btn btn-sm btn-success" data-toggle="modal" data-target="#stock-update'.$item['id'].'" >Edit</button></td>
-                                          </tr>
-                                      ';
-                                  }
-                              ?>
-                          </tbody>
-                    </table>
-                  </div> 
-
-                </div>
+                                        </thead>
+                                        <tbody>
+                                            <?php 
+                                              
+                                                foreach($product->fetchTodayPurchases() as $item){
+                                                    $productData = $product->productData($item['product_id']);
+                                                    echo '
+                                                        <tr>
+                                                              <td>'.$item['dateSaved'].'</td>
+                                                              <td>'.$productData['name'].'</td>
+                                                              <td>'.$productData['bulk'].'</td>
+                                                              <td>'.$item['qty'].'</td>
+                                                              <td>'.number_format($item['bprice']).'</td>
+                                                              <td>'.number_format($item['rsaleprice']).'</td>
+                                                              <td>'.number_format($item['wsaleprice']).'</td>
+                                                              <td><button class="btn btn-sm btn-success" data-toggle="modal" data-target="#purchase'.$item['id'].'" >Edit</button></td>
+                                                        </tr>
+                                                    ';
+                                                }
+                                            ?>
+                                        </tbody>
+                                  </table>
+                          <?php   }
+                        ?>
+                        <?php 
+                             if ($_GET['type'] == "whole_out") {?>
+                                     <table id="stock-data-table" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>product name</th>
+                                                <th>quantity</th>
+                                                <th>buying price</th>
+                                                <th>Retail price</th>
+                                                <th>Wholesale price</th>
+                                                <th>Discount price</th>
+                                                <th>action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php 
+                                              
+                                                foreach($product->fetchStock() as $item){
+                                                    $productData = $product->productData($item['product_id']);
+                                                    if ($product->bulkAvailable($item['quantity'],$productData['qty']) == 0) {
+                                                        echo '
+                                                          <tr>
+                                                                <td>'.$productData['name'].'</td>
+                                                                <td>'.$product->bulkWithItermsStock($item['quantity'],$productData['qty'],$item['product_id']).'</td>
+                                                                <td>'.number_format($item['bprice']).'</td>
+                                                                <td>'.number_format($item['rsale_price']).'</td>
+                                                                <td>'.number_format($item['wsale_price']).'</td>
+                                                                <td><small>Retail</small>: <b>'.number_format($item['rdiscount']).'</b><small> Wholesale</small>: <b>'.number_format($item['wdiscount']).'</b></td>
+                                                                <td><button disabled title="Manager Session" class="btn btn-sm btn-success"  >Edit</button></td>
+                                                          </tr>
+                                                      ';
+                                                    }
+                                                   
+                                                }
+                                            ?>
+                                        </tbody>
+                                  </table>
+                        <?php   }
+                       ?>
+                        <?php 
+                             if ($_GET['type'] == "retail_out") {?>
+                                     <table id="stock-data-table" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>product name</th>
+                                                <th>quantity</th>
+                                                <th>buying price</th>
+                                                <th>Retail price</th>
+                                                <th>Wholesale price</th>
+                                                <th>Discount price</th>
+                                                <th>action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php 
+                                              
+                                                foreach($product->fetchStock() as $item){
+                                                    $productData = $product->productData($item['product_id']);
+                                                    if ( $item['quantity'] == 0 ) {
+                                                        echo '
+                                                          <tr>
+                                                                <td>'.$productData['name'].'</td>
+                                                                <td>'.$product->bulkWithItermsStock($item['quantity'],$productData['qty'],$item['product_id']).'</td>
+                                                                <td>'.number_format($item['bprice']).'</td>
+                                                                <td>'.number_format($item['rsale_price']).'</td>
+                                                                <td>'.number_format($item['wsale_price']).'</td>
+                                                                <td><small>Retail</small>: <b>'.number_format($item['rdiscount']).'</b><small> Wholesale</small>: <b>'.number_format($item['wdiscount']).'</b></td>
+                                                                <td><button disabled title="Manager Session" class="btn btn-sm btn-success"  >Edit</button></td>
+                                                          </tr>
+                                                      ';
+                                                    }
+                                                   
+                                                }
+                                            ?>
+                                        </tbody>
+                                  </table>
+                        <?php   }
+                       ?>
               </div><!-- /.card-body -->
             </div>
             <!-- /.card -->
@@ -261,6 +223,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         
         </div>
         <!-- /.row (main row) -->
+
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
@@ -276,7 +239,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </div>
   </aside>
   <!-- /.control-sidebar -->
-
+  <?php
+    include 'partials/modal.php';
+  ?>
   <!-- Main Footer -->
   <footer class="main-footer">
     <!-- To the right -->
@@ -288,9 +253,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </footer>
 </div>
 <!-- ./wrapper -->
-<?php
-   include 'partials/modal.php';
-?>
+
 <!-- REQUIRED SCRIPTS -->
 <!-- jQuery -->
 <script src="../plugins/jquery/jquery.min.js"></script>
@@ -330,7 +293,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="../dist/js/adminlte.js"></script>
 <script src="../js/jquery.form.js"></script>
 <!-- <script src="../js/klikod.js"></script> -->
-
 <script type="text/javascript">
   $(document).ready(function () {
 
@@ -603,6 +565,5 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 </script>
-
 </body>
 </html>

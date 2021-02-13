@@ -607,7 +607,77 @@
   </div>
 </div>
 
+<div class="modal fade" id="rsales-summary-doc-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div id="userwaiting"></div>
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Genarate RetailSales Summary Report per Date</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
 
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form  method="POST" action="../route/web.php">
+           <input type="hidden" hidden value="1" name="rsalesSummaryDoc">
+            <div class="form-group">
+                <label for="name">From Date:</label>
+                <input type="date"  name="from" class="form-control"  id="from" required>
+            </div>
+            <div class="form-group">
+                <label for="code">To Date:</label>
+                <input type="date" name="to" class="form-control"  id="to" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Genarate Report <i class="fa fa-fa-file-pdf"></i></button>
+        </form> 
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="wsales-summary-doc-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div id="userwaiting"></div>
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Genarate WholeSales Summary Report per Date</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form  method="POST" action="../route/web.php">
+           <input type="hidden" hidden value="1" name="wsalesSummaryDoc">
+            <div class="form-group">
+                <label for="name">From Date:</label>
+                <input type="date"  name="from" class="form-control"  id="from" required>
+            </div>
+            <div class="form-group">
+                <label for="code">To Date:</label>
+                <input type="date" name="to" class="form-control"  id="to" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Genarate Report <i class="fa fa-fa-file-pdf"></i></button>
+        </form> 
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 <div class="modal fade" id="change-password">
   <div class="modal-dialog">

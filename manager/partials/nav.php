@@ -34,6 +34,8 @@
                     <li><a href="../pdfDoc/productDoc.php" class="dropdown-item">Product Report </a></li>
                     <li><a href="#" class="dropdown-item"  data-toggle="modal" data-target="#purchases-doc-modal">Purchases Report</a></li>
                     <li><a href="../pdfDoc/stockDoc.php" target="_blank" class="dropdown-item">Stock Report</a></li>
+                    <li><a href="#" class="dropdown-item" data-toggle="modal" data-target="#rsales-summary-doc-modal">RetailSales Summary</a></li>
+                    <li><a href="#" class="dropdown-item" data-toggle="modal" data-target="#wsales-summary-doc-modal">WholeSales Summary</a></li>
                 </ul>
                
            </li>
