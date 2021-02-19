@@ -137,9 +137,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               </div>              
                               <div class="col-md-5">
                                   <div class="alert alert-info mt-1">Wholesale Summary</div>
-                                  <form id="saleWholesale-form" action="../route/web.php" method="POST" class="cat-data">
-                                        <?php $product->cartData('wsale') ?>
-                                  </form>
+                                  <!-- <form id="saleWholesale-form" action="../route/web.php" method="POST" class="cat-data"> -->
+                                  <div class="cat-data"><?php $product->cartData('wsale') ?></div>
+                                        
+                                  <!-- </form> -->
                               </div>             
                           </div> 
                       </div>
@@ -379,6 +380,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     $("body").delegate(".deleteFromCart", "click", function(){
         var dataId = $(this).attr("dataId");
         var from = $(this).attr("from");
+        
         $.post('../route/web.php',   // url
           { deleteFromCart: 1,dataId : dataId ,from:from}, // data to be submit
           function(data, status, jqXHR) {// success callback
@@ -460,6 +462,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
               }
           }
     });
+
+    $("body").delegate(".sale-btn", "click", function(){
+
+        var from = $(this).attr('from');
+
+        $.post('../route/web.php',   // url
+          { saleProduct: 1, from: from }, // data to be submit
+          function(data, status, jqXHR) {// success callback
+              // $('#cat-data').append('status: ' + status + ', data: ' + data);
+              if (data == 1) {
+                 toastr.success('success');
+                  // $(".sale-btn").html("sale");
+                  location.reload();
+              }
+              if (data == 5) {
+                 toastr.success('success');
+                  // $(".sale-btn").html("sale");
+                  location.reload();
+              }
+              
+          });
+    });
+
 
 
     $("#changepassword-form").ajaxForm({

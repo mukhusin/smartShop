@@ -159,12 +159,14 @@ class Product extends DatabaseConnection
         $wsaleprice = $_POST['wsaleprice'];
         $bprice = $_POST['bprice'];
         // you need to check if it exists in the stock
+        $numberOfItems = $this->productData($id);
+        $bulk = $numberOfItems['qty'];
         $stockData = $this->stockData($productId);
-        if ($stockData['quantity'] > $oldqty) {
-            $sum = $stockData['quantity'] - $oldqty;
-            $newQty = $sum + $qty;
+        if ($stockData['quantity'] > ($oldqty * $bulk)) {
+            $sum = $stockData['quantity'] - ($oldqty * $bulk);
+            $newQty = $sum + ($qty * $bulk);
         } else {
-            $newQty = $stockData['quantity'];
+            $newQty = $stockData['quantity'] * $bulk;
         }
 
         //product_id,qty,bprice,rsaleprice,wsaleprice
@@ -189,12 +191,12 @@ class Product extends DatabaseConnection
         $rdiscount = $_POST['rdiscount'];
         $wdiscount = $_POST['wdiscount'];
 
-        // $numberOfItems = $this->productData($id);
-        // $bulk = $numberOfItems['qty'];
-        // $items = $bulk * $qty;
+        $numberOfItems = $this->productData($id);
+        $bulk = $numberOfItems['qty'];
+        $items = $bulk * $qty;
 
         $stmt = $this->connect()->prepare("UPDATE stock SET quantity = ?, bprice = ?, rsale_price = ? , wsale_price = ?,rdiscount = ?,wdiscount = ? WHERE id = $id");
-        if ($stmt->execute([$qty, $bprice, $rsaleprice, $wsaleprice, $rdiscount, $wdiscount])) {
+        if ($stmt->execute([$items, $bprice, $rsaleprice, $wsaleprice, $rdiscount, $wdiscount])) {
             // echo"New product added successfully";
             echo 1;
         } else {
@@ -287,7 +289,7 @@ class Product extends DatabaseConnection
                 </table>
                 <div class="row">
                     <div class="col-md-6"><h6 class="ml-5">Total: <b>'.$cartTotalCost['total'].' Tshs</b></h3></div>
-                    <div class="col-md-6"><button  class="btn btn-primary float-right w-75 sale-btn">Sale</button></div>
+                    <div class="col-md-6"><button from = "'.$value['type'].'" class="btn btn-primary float-right w-75 sale-btn">Sale</button></div>
                 </div>
             ';
         } else {
@@ -298,7 +300,7 @@ class Product extends DatabaseConnection
     public function deleteFromCart(){
         $id = $_POST['dataId'];
         $from = $_POST['from'];
-        $delete = $this->connect()->prepare("DELETE  FROM cat WHERE id = $id AND type = '$from'");
+        $delete = $this->connect()->prepare("DELETE  FROM cat WHERE id = $id ");
         $delete->execute();
         echo 1;
     }
