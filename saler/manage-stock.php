@@ -95,15 +95,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <a class="nav-link active" href="#product-data" data-toggle="tab">products</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="#add-stock" data-toggle="tab">Add stock</a>
-                    </li>
-                   
-                    <li class="nav-item">
-                      <a class="nav-link" href="#purchase-stock" data-toggle="tab">purchases</a>
-                    </li>
-                    <li class="nav-item">
                       <a class="nav-link" href="#stock" data-toggle="tab">Stock</a>
                     </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#add-stock" data-toggle="tab">Stock Added</a>
+                    </li>
+                   
+                    <!-- <li class="nav-item">
+                      <a class="nav-link" href="#purchase-stock" data-toggle="tab">purchases</a>
+                    </li> -->
+                   
                   </ul>
                 </div>
               </div><!-- /.card-header -->
@@ -119,7 +120,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <th>Bulk type</th>
                                 <th>Items</th>
                                 <th>Unit@each</th>
-                                <th>action</th>
+                               
                             </tr>
                         </thead>
                         <tbody>
@@ -133,10 +134,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                               <td>'.$item['bulk'].'</td>
                                               <td>'.$item['qty'].'</td>
                                               <td>'.$item['unit'].'</td>
-                                              <td>
-                                                   <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#edit-product'.$item['id'].'">Edit</button>
-                                                   <button data-toggle="modal" data-target="#delete-product-modal'.$item['id'].'" class="btn btn-sm btn-danger">Delete</button>
-                                              </td>
+                                             
                                          </tr>
                                      ';
                                 }
@@ -154,7 +152,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <th>Bulk type</th>
                                 <th>Items</th>
                                 <th>Unit@each</th>
-                                <th>action</th>
+                               
                             </tr>
                         </thead>
                         <tbody>
@@ -168,9 +166,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                               <td>'.$item['bulk'].'</td>
                                               <td>'.$item['qty'].'</td>
                                               <td>'.$item['unit'].'</td>
-                                              <td>
-                                                   <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#add-stock'.$item['id'].'">Add</button>
-                                              </td>
+                                              
                                          </tr>
                                      ';
                                 }
@@ -187,10 +183,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <th>product name</th>
                                     <th>bulk</th>
                                     <th>quantity</th>
-                                    <th>buying price</th>
+                                    <!-- <th>buying price</th> <td>'.number_format($item['bprice']).'</td> -->
                                     <th>Retail price</th>
                                     <th>Wholesale price</th>
-                                    <th>action</th>
+                                   
                                 </tr>
                             </thead>
                             <tbody>
@@ -204,10 +200,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                   <td>'.$productData['name'].'</td>
                                                   <td>'.$productData['bulk'].'</td>
                                                   <td>'.$item['qty'].'</td>
-                                                  <td>'.number_format($item['bprice']).'</td>
+                                                  
                                                   <td>'.number_format($item['rsaleprice']).'</td>
                                                   <td>'.number_format($item['wsaleprice']).'</td>
-                                                  <td><button class="btn btn-sm btn-success" data-toggle="modal" data-target="#purchase'.$item['id'].'" >Edit</button></td>
+                                                  
                                             </tr>
                                         ';
                                     }
@@ -222,11 +218,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               <tr>
                                   <th>product name</th>
                                   <th>quantity</th>
-                                  <th>buying price</th>
+                                  <!-- <th>buying price</th> <td>'.number_format($item['bprice']).'</td>-->
                                   <th>Retail price</th>
                                   <th>Wholesale price</th>
                                   <th>Discount price</th>
-                                  <th>action</th>
+                                
                               </tr>
                           </thead>
                           <tbody>
@@ -238,11 +234,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                           <tr>
                                                 <td>'.$productData['name'].'</td>
                                                 <td>'.$product->bulkWithItermsStock($item['quantity'],$productData['qty'],$item['product_id']).'</td>
-                                                <td>'.number_format($item['bprice']).'</td>
                                                 <td>'.number_format($item['rsale_price']).'</td>
                                                 <td>'.number_format($item['wsale_price']).'</td>
                                                 <td><small>Retail</small>: <b>'.number_format($item['rdiscount']).'</b><small> Wholesale</small>: <b>'.number_format($item['wdiscount']).'</b></td>
-                                                <td><button class="btn btn-sm btn-success" data-toggle="modal" data-target="#stock-update'.$item['id'].'" >Edit</button></td>
+                                                
                                           </tr>
                                       ';
                                   }
