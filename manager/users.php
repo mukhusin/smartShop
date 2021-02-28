@@ -319,7 +319,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     toastr.success('User deleted successfully !');
                     location.reload();
                   }
-                  if (data != 1) {
+                  if (data != 1) { 
                     toastr.error("Ops something went wrong !!");
                   }
                   
