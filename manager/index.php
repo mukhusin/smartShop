@@ -140,7 +140,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               <div class="col-md-5">
                                   <div class="alert alert-info mt-1">Wholesale Summary</div>
                                   <!-- <form id="saleWholesale-form" action="../route/web.php" method="POST" class="cat-data"> -->
-                                        <?php $product->cartData('wsale') ?>
+                                        <div class="cat-data"><?php $product->cartData('wsale') ?></div>
                                   <!-- </form> -->
                               </div>             
                           </div> 
